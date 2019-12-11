@@ -13,7 +13,7 @@ import ARKit
 class ViewController: UIViewController, ARSCNViewDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
-    
+    var movement = 0.001
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,7 +35,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         // Create a session configuration
         let configuration = ARWorldTrackingConfiguration()
-
+        createBlockPosition(position: SCNVector3(0.001,0.001,movement))
         // Run the view's session
         sceneView.session.run(configuration)
     }
@@ -45,6 +45,13 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         // Pause the view's session
         sceneView.session.pause()
+    }
+    
+    func createBlockPosition(position: SCNVector3){
+        var block = SCNBox(width: 5.0, height: 5.0, length: 10.0, chamferRadius: 0.1)
+        var boxNode = SCNNode(geometry: block)
+        boxNode.position = position
+        sceneView.scene.rootNode.addChildNode(boxNode)
     }
 
     // MARK: - ARSCNViewDelegate
