@@ -87,15 +87,20 @@ class ViewController: UIViewController, ARSCNViewDelegate {
 
     // MARK: - ARSCNViewDelegate
     
-/*
-    // Override to create and configure nodes for anchors added to the view's session.
+     //Override to create and configure nodes for anchors added to the view's session.
     func renderer(_ renderer: SCNSceneRenderer, nodeFor anchor: ARAnchor) -> SCNNode? {
+        
+        if let camera = sceneView.session.currentFrame?.camera {
+//            didInitializeScene = true
+            let transform = camera.transform
+            let position = SCNVector3(transform.columns.3.x, transform.columns.3.y, transform.columns.3.z)
+            //ViewController.makeUpdateCameraPos(towards: position)
+        }
+        
         let node = SCNNode()
      
         return node
     }
-*/
-    
     func session(_ session: ARSession, didFailWithError error: Error) {
         // Present an error message to the user
         
