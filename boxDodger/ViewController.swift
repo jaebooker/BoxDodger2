@@ -13,7 +13,12 @@ import ARKit
 class ViewController: UIViewController, ARSCNViewDelegate {
 
     @IBOutlet var sceneView: ARSCNView!
+    var xPosition = 0.001
+    var yPosition = 0.001
+    var startingPosition = 0.001
+    var velocity = 0.001
     var movement = 0.001
+    var score = 0
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -35,7 +40,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         
         // Create a session configuration
         let configuration = ARWorldTrackingConfiguration()
-        createBlockPosition(position: SCNVector3(0.001,0.001,movement))
+        createBlockPosition(position: SCNVector3(xPosition,yPosition,movement))
         // Run the view's session
         sceneView.session.run(configuration)
     }
@@ -52,6 +57,32 @@ class ViewController: UIViewController, ARSCNViewDelegate {
         var boxNode = SCNNode(geometry: block)
         boxNode.position = position
         sceneView.scene.rootNode.addChildNode(boxNode)
+        addAnimation(node: boxNode)
+    }
+    
+    func createBlock(){
+        //yPosition = RandomNumberGenerator
+        //xPosition = RandomNumberGenerator
+        createBlockPosition(position: SCNVector3(xPosition,yPosition,startingPosition))
+    }
+    
+    func addAnimation(node: SCNNode) {
+        let rotateOne = SCNAction.rotateBy(x: 0, y: 0, z: CGFloat(velocity), duration: 5.0)
+        SCNAction.move(by: SCNVector3(0.0001,0.0001,velocity), duration: 5.0)
+        node.runAction(rotateOne)
+    }
+    
+//    func boxCollision(box: SCNNode, player: AVPlayer) {
+//        score -= 1
+//    }
+    
+    func update(){
+        movement = startingPosition + velocity
+        //if box and player collide {
+        //  score -= 1
+        //  movement = 0.001
+        //}
+        velocity += 0.0001
     }
 
     // MARK: - ARSCNViewDelegate
